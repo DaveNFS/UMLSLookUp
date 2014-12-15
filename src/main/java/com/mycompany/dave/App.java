@@ -16,12 +16,14 @@ public class App
         
         
 //          TESTING the new/improved terminology lookup method         
-//        HashSet<String> ans2 = LU.lookUp2("Mild mental retardation",5);
-//        for(String x:ans2)
-//        {
-//        	System.out.println(x);
-//        }
-   
+        
+
+        HashSet<String> ans2 = LU.lookUp2("Mild mental retardation",5);
+        for(String x:ans2)
+        {
+        	System.out.println(x);
+        }
+        
  
 //           TESTING preferred name method        
         System.out.println("-----------");
