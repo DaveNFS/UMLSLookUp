@@ -14,11 +14,17 @@ public class App
 //        	System.out.println(x);
 //        }	
         
-        HashSet<String> ans2 = LU.retrivePreferredName("Mild mental retardation");
-        for(String x:ans2)
-        {
-        	System.out.println(x);
-        }
-     
+        
+//          TESTING the new/improved terminology lookup method         
+//        HashSet<String> ans2 = LU.lookUp2("Mild mental retardation",5);
+//        for(String x:ans2)
+//        {
+//        	System.out.println(x);
+//        }
+   
+ 
+//           TESTING preferred name method        
+        System.out.println("-----------");
+        System.out.println(LU.retrievePreferredName("toxic chemical"));
     }
 }

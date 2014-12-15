@@ -10,14 +10,14 @@ import java.util.HashSet;
 public class TerminologyLookUp {
 
 	 public static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-//	 public static final String DB_URL = "jdbc:mysql://umls.effectivedynamics.com";
-//	 public static final String USER_NAME = "umls_ro";
-//	 public static final String PASSWORD = "s4#fde2";
+	 public static final String DB_URL = "jdbc:mysql://umls.effectivedynamics.com";
+	 public static final String USER_NAME = "umls_ro";
+	 public static final String PASSWORD = "s4#fde2";
 	 
 	 //------
-	 public static final String DB_URL = "jdbc:mysql://mysql.chpc.utah.edu";
-	 public static final String USER_NAME = "umlsro";
-	 public static final String PASSWORD = "umls";
+//	 public static final String DB_URL = "jdbc:mysql://mysql.chpc.utah.edu";
+//	 public static final String USER_NAME = "umlsro";
+//	 public static final String PASSWORD = "umls";
 	 
 	 
 	 
@@ -52,9 +52,7 @@ public class TerminologyLookUp {
 				 output.add(res.getString("STR"));
 			 }
 		}
-	    
-	       
-	    
+	    	    
 	    // close connection
 	    conn.close();
 		
@@ -63,7 +61,7 @@ public class TerminologyLookUp {
 	
 	
 	
-	public HashSet<String> retrivePreferredName(String concept) throws Exception
+	public HashSet<String> lookUp2(String concept, int limit) throws Exception
 	{
 		HashSet<String> output = new HashSet<String>();
 		String conceptCUI = "";
@@ -92,7 +90,7 @@ public class TerminologyLookUp {
 	    
 	    // now get all related CUIs
 	    stmt = conn.createStatement();
-	    sql = "SELECT CUI2 FROM umls.MRREL WHERE CUI1='"+ conceptCUI + "';";
+	    sql = "SELECT CUI2 FROM umls.MRREL WHERE CUI1='"+ conceptCUI + "' LIMIT " + limit + ";";
 		res = stmt.executeQuery(sql);
 		while(res.next())
 		{
@@ -122,6 +120,42 @@ public class TerminologyLookUp {
 	}
 	
 	
+	
+	public String retrievePreferredName(String input) throws Exception
+	{
+		String output = input;
+		Class.forName(JDBC_DRIVER);
+		Connection  conn = DriverManager.getConnection(DB_URL, USER_NAME, PASSWORD);
+		
+		Statement stmt = conn.createStatement();
+		String sql = "SELECT CUI FROM umls.MRCONSO WHERE STR='" + input.trim() + "';";
+		ResultSet res = stmt.executeQuery(sql);	
+
+		String cui = "";
+	    while(res.next())
+	    {
+	    	cui = res.getString("CUI");
+		}
+		
+	    if(cui=="")
+	    {
+	    	return "Please check the input term";
+	    }
+
+	    //not get the preferred term:
+	    stmt = conn.createStatement();
+	    sql = "SELECT STR FROM umls.MRCONSO WHERE CUI='" + cui + "' AND ISPREF='Y' AND TTY='PN';";
+		res = stmt.executeQuery(sql);
+	    while(res.next())
+	    {
+	    	output = res.getString("STR");
+		}
+		
+	    // close connection
+	    conn.close();		
+		
+		return output;
+	}
 	
 	
 	
