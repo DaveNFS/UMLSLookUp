@@ -102,7 +102,7 @@ public class TerminologyLookUp {
 		for(String x:relatedCUIs)
 		{
 		    stmt = conn.createStatement();
-		    sql = "SELECT STR FROM umls.MRCONSO WHERE CUI='" + x + "' AND ISPREF='Y' AND LAT='ENG';";
+		    sql = "SELECT STR FROM umls.MRCONSO WHERE CUI='" + x + "' AND ISPREF='Y' AND LAT='ENG' AND SAB='MTH';";
 			res = stmt.executeQuery(sql);
 			while(res.next())
 			{

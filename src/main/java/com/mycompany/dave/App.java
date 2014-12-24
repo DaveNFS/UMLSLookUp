@@ -18,7 +18,7 @@ public class App
 //          TESTING the new/improved terminology lookup method         
         
 
-        HashSet<String> ans2 = LU.lookUp2("Mild mental retardation",5);
+        HashSet<String> ans2 = LU.lookUp2("Mild mental retardation",100);
         for(String x:ans2)
         {
         	System.out.println(x);
